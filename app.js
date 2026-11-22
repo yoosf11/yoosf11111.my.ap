@@ -1,6 +1,6 @@
 // 1. إعدادات Supabase
-const SUPABASE_URL = 'https://alzfodoxencospdwtdox.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_KaJpWYwkIP0nhr6qe758xg_UC6cxrLD';
+const SUPABASE_URL = 'https://ahgokztpqzzknphuyyys.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_Z3OH28tFzHhPyyP6xaUICA_yZk9gopk';
 const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let currentUser = null;
