@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <link rel="icon" type="image/png" href="./logo.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حضور محاضرة: ريضيات الاعمال | د. محمد ابو رايه </title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0F2942">
+    <link rel="apple-touch-icon" href="logo.png">
+    
+    <!-- مكتبة Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- مكتبة SheetJS لتصدير Excel -->
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+
+    <div class="top-bar">
+        <button id="installBtn" class="btn-accent hidden" data-ar="📲 تثبيت التطبيق" data-en="📲 Install App">📲 تثبيت التطبيق</button>
+        <button id="langToggle" onclick="toggleLanguage()">English</button>
+    </div>
+
+    <!-- واجهة تسجيل الدخول -->
+    <div id="loginSection" class="container card">
+        <img src="logo.png" alt="شعار المعهد" class="institute-logo" onerror="this.src='https://via.placeholder.com/150?text=Logo'">
+        <h2 data-ar="مادة: تفكير ابتكاري" data-en="Course: Creative Thinking">مادة: ريضيات الاعمال </h2>
+        <h4 data-ar="دكتور: السيد حراز" data-en="Prof: Dr. El-Sayed Harraz">دكتور: محمد ابو رايه </h4>
+        
+        <form id="loginForm">
+            <input type="text" id="loginUsername" placeholder="اسم المستخدم / Username" required>
+            <input type="password" id="loginPassword" placeholder="كلمة المرور / Password" required>
+            <button type="submit" class="btn-primary" data-ar="تسجيل الدخول" data-en="Login">تسجيل الدخول</button>
+        </form>
+        <p id="loginError" class="error-msg"></p>
+    </div>
+
+    <!-- واجهة الطالب -->
+    <div id="studentSection" class="container card hidden">
+        <div class="header-flex">
+            <h3 id="studentWelcome"></h3>
+            <button onclick="logout()" class="btn-danger-sm" data-ar="خروج" data-en="Logout">خروج</button>
+        </div>
+        <p class="info-text" data-ar="أدخل اسمك الثلاثي المطابق لبياناتك المسجلة واسمح بالوصول للموقع (GPS) لتسجيل حضورك." data-en="Enter your registered full name and allow GPS access to check in.">
+            أدخل اسمك الثلاثي المطابق لبياناتك المسجلة واسمح بالوصول للموقع (GPS) لتسجيل حضورك.
+        </p>
+        <input type="text" id="confirmFullName" placeholder="اكتب اسمك الثلاثي هنا للتأكيد">
+        <button onclick="markAttendance()" class="btn-primary" data-ar="تسجيل الحضور الآن" data-en="Check In Now">تسجيل الحضور الآن</button>
+        <p id="attendanceStatus" class="status-msg"></p>
+    </div>
+
+    <!-- لوحة تحكم الإدارة والمشرفين -->
+    <div id="adminSection" class="container-wide card hidden">
+        <div class="header-flex">
+            <div>
+                <h2 id="adminWelcome"></h2>
+                <span id="roleBadge" class="badge"></span>
+            </div>
+            <button onclick="logout()" class="btn-danger-sm" data-ar="تسجيل خروج" data-en="Logout">تسجيل خروج</button>
+        </div>
+
+        <!-- التنبيهات الفورية (تظهر للمديرين الأساسيين) -->
+        <div id="alertsContainer" class="alerts-box">
+            <h4 data-ar="🚨 تنبيهات المخالفات ومحاولات التلاعب" data-en="🚨 Security & Duplicate Alerts">🚨 تنبيهات المخالفات ومحاولات التلاعب</h4>
+            <ul id="alertsList"></ul>
+        </div>
+
+        <!-- أزرار التحكم -->
+        <div class="controls-grid">
+            <button onclick="showTab('attendanceTab')" class="btn-secondary" data-ar="📋 سجل الحضور" data-en="📋 Attendance Log">📋 سجل الحضور</button>
+            <button onclick="showTab('usersTab')" class="btn-secondary" data-ar="👥 إدارة المستخدمين" data-en="👥 Manage Users">👥 إدارة المستخدمين</button>
+            <button id="exportExcelBtn" onclick="exportToExcel()" class="btn-success" data-ar="📥 سحب الحضور إلى Excel" data-en="📥 Export to Excel">📥 سحب الحضور إلى Excel</button>
+        </div>
+
+        <!-- تبويب سجل الحضور -->
+        <div id="attendanceTab" class="tab-content">
+            <div class="filter-bar">
+                <button onclick="sortTable('attendanceTable', 0)" class="btn-outline" data-ar="فرز أبجدي (أ - ي)" data-en="Sort A-Z">فرز أبجدي (أ - ي)</button>
+            </div>
+            <div class="table-responsive">
+                <table id="attendanceTable">
+                    <thead>
+                        <tr>
+                            <th data-ar="الاسم الثلاثي" data-en="Full Name">الاسم الثلاثي</th>
+                            <th data-ar="اليوم" data-en="Day">اليوم</th>
+                            <th data-ar="التاريخ" data-en="Date">التاريخ</th>
+                            <th data-ar="الساعة" data-en="Time">الساعة</th>
+                            <th data-ar="الموقع (GPS)" data-en="Location">الموقع (GPS)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="attendanceBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- تبويب إدارة المستخدمين -->
+        <div id="usersTab" class="tab-content hidden">
+            <form id="addUserForm" class="add-user-box">
+                <h4 data-ar="إضافة طالب / مستخدم جديد" data-en="Add New User">إضافة طالب / مستخدم جديد</h4>
+                <input type="text" id="newFullName" placeholder="الاسم الثلاثي" required>
+                <input type="text" id="newUsername" placeholder="اسم المستخدم للدخول" required>
+                <input type="password" id="newPassword" placeholder="كلمة المرور" required>
+                
+                <!-- الصلاحيات تظهر فقط للمديرين الأساسيين (د. محمد ابو رايه  / يوسف طاهر الشعراوي) -->
+                <div id="permissionsSection" class="permissions-check">
+                    <p style="width: 100%; font-weight: bold; margin-bottom: 5px;">تحديد صلاحيات إضافية (اتركها فارغة للطالب العادي):</p>
+                    <label><input type="checkbox" value="add_user"> إضافة مستخدمين</label>
+                    <label><input type="checkbox" value="delete_user"> حذف مستخدمين</label>
+                    <label><input type="checkbox" value="warn_user"> تحذير مستخدمين</label>
+                    <label><input type="checkbox" value="export_excel"> سحب إكسل</label>
+                </div>
+                <button type="submit" class="btn-primary" data-ar="حفظ وإضافة" data-en="Save User">حفظ وإضافة</button>
+            </form>
+
+            <div class="filter-bar">
+                <button onclick="sortUsersAZ()" class="btn-outline" data-ar="فرز المستخدمين (أ - ي)" data-en="Sort Users A-Z">فرز المستخدمين (أ - ي)</button>
+            </div>
+            <div class="table-responsive">
+                <table id="usersTable">
+                    <thead>
+                        <tr>
+                            <th data-ar="الاسم الثلاثي" data-en="Full Name">الاسم الثلاثي</th>
+                            <th data-ar="اسم المستخدم" data-en="Username">اسم المستخدم</th>
+                            <th data-ar="التحذيرات" data-en="Warnings">التحذيرات</th>
+                            <th data-ar="الإجراءات" data-en="Actions">الإجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

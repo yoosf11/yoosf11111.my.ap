@@ -1,0 +1,258 @@
+:root {
+    --primary: #0F2942;       /* اللون الأساسي: كحلي أكاديمي */
+    --primary-light: #1B436B;
+    --accent: #C59B27;        /* اللون الثانوي: ذهبي هادئ متناسق مع الكحلي */
+    --bg: #F4F7FA;            /* خلفية مريحة للعين */
+    --card-bg: #FFFFFF;
+    --text: #1E293B;
+    --muted: #64748B;
+    --border: #E2E8F0;
+    --success: #15803D;
+    --danger: #DC2626;
+}
+
+* {
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.top-bar {
+    width: 100%;
+    max-width: 950px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+#langToggle, .btn-accent {
+    background: var(--accent);
+    color: var(--card-bg);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.container {
+    width: 100%;
+    max-width: 450px;
+}
+
+.container-wide {
+    width: 100%;
+    max-width: 950px;
+}
+
+.card {
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 14px;
+    box-shadow: 0 8px 24px rgba(15, 41, 66, 0.12);
+    border-top: 6px solid var(--primary);
+    border-bottom: 4px solid var(--accent);
+}
+
+.hidden {
+    display: none !important;
+}
+
+.institute-logo {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid var(--accent);
+    display: block;
+    margin: 0 auto 15px;
+}
+
+h2, h4 {
+    text-align: center;
+    color: var(--primary);
+    margin-bottom: 8px;
+}
+
+h4 {
+    color: var(--accent);
+    margin-bottom: 20px;
+}
+
+input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 12px;
+    background: var(--primary);
+    color: var(--card-bg);
+    font-size: 16px;
+}
+
+.btn-primary:hover {
+    background: var(--primary-light);
+}
+
+.btn-secondary {
+    padding: 10px 15px;
+    background: var(--primary);
+    color: var(--card-bg);
+}
+
+.btn-success {
+    padding: 10px 15px;
+    background: var(--success);
+    color: var(--card-bg);
+}
+
+.btn-danger-sm {
+    padding: 6px 12px;
+    background: var(--danger);
+    color: var(--card-bg);
+}
+
+.btn-outline {
+    padding: 8px 14px;
+    border: 1px solid var(--primary);
+    background: transparent;
+    color: var(--primary);
+    margin-bottom: 10px;
+}
+
+.header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 10px;
+}
+
+.badge {
+    background: var(--accent);
+    color: var(--card-bg);
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+}
+
+.alerts-box {
+    background: #FEF2F2;
+    border: 1px solid #FECACA;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    max-height: 160px;
+    overflow-y: auto;
+}
+
+.alerts-box h4 {
+    text-align: right;
+    color: var(--danger);
+    margin-bottom: 8px;
+}
+
+.alerts-box ul {
+    list-style: none;
+    font-size: 13px;
+    color: #991B1B;
+}
+
+.alert-item {
+    padding: 6px 0;
+    border-bottom: 1px dashed #FCA5A5;
+}
+
+.alert-item small {
+    color: var(--muted);
+    display: block;
+}
+
+.controls-grid {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th, td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+}
+
+th {
+    background: var(--primary);
+    color: var(--card-bg);
+}
+
+.add-user-box {
+    background: var(--bg);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border);
+}
+
+.permissions-check {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+.error-msg {
+    color: var(--danger);
+    text-align: center;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.status-msg {
+    text-align: center;
+    margin-top: 15px;
+    font-weight: bold;
+}
