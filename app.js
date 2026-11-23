@@ -1,6 +1,6 @@
 // 1. إعدادات Supabase
-const SUPABASE_URL = 'https://alzfodoxencospdwtdox.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_KaJpWYwkIP0nhr6qe758xg_UC6cxrLD';
+const SUPABASE_URL = 'https://ahgokztpqzzknphuyyys.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_Z3OH28tFzHhPyyP6xaUICA_yZk9gopk'
 const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let currentUser = null;
@@ -282,7 +282,7 @@ function exportToExcel() {
     if (!hasPerm('export_excel')) return;
     const table = document.getElementById('attendanceTable');
     const wb = XLSX.utils.table_to_book(table, { sheet: "الحضور" });
-    XLSX.writeFile(wb, `حضور_تفكير_ابتكاري_${new Date().toISOString().split('T')[0]}.xlsx`);
+    XLSX.writeFile(wb, `حضور ريضيات الاعمال  ${new Date().toISOString().split('T')[0]}.xlsx`);
 }
 
 function showTab(tabId) {
